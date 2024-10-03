@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from "react";
+import { getAllItems } from "../api";
 
 type getItemsProps = {
   setItems: Function;
@@ -7,9 +8,9 @@ type getItemsProps = {
 
 function GetItems({ setItems, children }: getItemsProps) {
   useEffect(() => {
-    // fetchItems().then((data) => {
-    //   setItems(data);
-    // });
+    getAllItems().then((items) => {
+      setItems(items);
+    });
   }, []);
   return <>{children}</>;
 }
