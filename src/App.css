@@ -9,10 +9,30 @@
   h2 {
     font-size: clamp(2rem, 5vw, 5rem);
   }
+  form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  ul{
+    height: 100px;
+    border: 1px solid purple;
+    overflow-y: scroll;
+    padding: 8px 32px 0 32px;
+    background: linear-gradient(transparent, rgba(0,0,0,.3));
+    
+  }
 }
 
 .main-items {
   padding-top: 32px;
+}
+
+.main-terms {
+  padding: 16px;
+  ol {
+    padding: 24px;
+  }
 }
 
 .ek-card-group {
@@ -42,20 +62,22 @@
     height: 100%;
     object-fit: cover;
     justify-self: center;
+    color: #ffffff;
+    text-align: center;
   }
   [class*="__overlay"] {
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.4);
+    background: linear-gradient(transparent, rgba(0, 0, 0, 1));
     z-index: 1;
   }
   h2,
   button {
     position: absolute;
     bottom: 24px;
-    z-index: 2;
+    z-index: 10;
   }
   h2 {
     left: 24px;
@@ -87,6 +109,7 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+button,
 .btn {
   width: max-content;
   height: 40px;
@@ -95,11 +118,26 @@
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  background-color: purple;
+  background: linear-gradient(purple, purple);
+  border: 2px solid transparent;
   color: gold;
+  cursor: pointer;
+  transition: background 300ms ease-in-out;
   &:hover {
-    background: linear-gradient(purple, purple),
-      linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2)
+      ),
+      linear-gradient(purple, purple);
+    transition: all 300ms ease-in-out;
+  }
+  &[class*="--text"] {
+    color: purple;
+    background-color: transparent;
+    background: unset;
+    &:hover {
+      background-color: rgba(128, 0, 128, 0.3);
+    }
   }
   &[class*="--icon"] {
     padding: unset;
@@ -115,35 +153,82 @@
     flex-wrap: unset;
     background-color: transparent;
     border-color: transparent;
+    background: unset;
+    &::after {
+      min-inline-size: max-content;
+      block-size: 1.5rem;
+      padding-inline: 0.5rem;
+      border-radius: 0.25rem;
+      position: absolute;
+      bottom: calc(-4px - 1.5rem);
+      right: 0;
+      display: none;
+      align-items: center;
+      content: attr(tooltip);
+      background-color: var(--tooltip);
+      color: var(--secondary);
+      font-size: 0.875rem;
+      z-index: 3;
+    }
     &:hover {
       background: unset;
       background-color: rgba(0, 0, 0, 0.1);
     }
     svg {
-      fill: rgba(0, 0, 0, 0.4);
+      fill: var(--primary-icon);
     }
   }
   &[class*="--like"] {
     position: absolute;
+    background-color: transparent;
     svg {
       fill: rgba(128, 0, 128, 0.9);
     }
     &:hover {
       background-color: rgba(128, 0, 128, 0.3);
     }
+    &::after {
+      background-color: #ffffff;
+      color: purple;
+    }
+  }
+}
+
+.btn--icon:hover::after {
+  display: flex;
+  animation: tooltip 200ms ease, tooltip 200ms ease 1700ms reverse forwards;
+}
+
+@media (hover: none) {
+  .btn--icon:hover::after {
+    display: none;
+  }
+}
+
+@keyframes tooltip {
+  0% {
+    scale: 0;
+  }
+  100% {
+    scale: 1;
   }
 }
 
 .btn__badge {
-  height: 14px;
-  border-radius: 12px;
-  padding: 4px;
+  width: min(16px, max-content);
+  height: 16px;
+  border-radius: 50%;
+  padding: 0 5px;
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: var(--primary);
+  color: var(--secondary);
+  display: grid;
+  place-items: center;
   z-index: 10;
   top: 5px;
   left: 20px;
-  font-size: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
   &:empty {
     border-radius: 50%;
     top: 10px;
@@ -161,8 +246,51 @@ input[type="text"] {
   backdrop-filter: blur(20px);
   color: purple;
   caret-color: purple;
-  &:focus, &:focus-visible {
+  &:focus,
+  &:focus-visible {
     outline: 2px solid purple;
     border: none;
+  }
+}
+dialog {
+  width: min(calc(100% - 32px), calc(500px + 64px));
+  aspect-ratio: 1/1;
+  padding: 32px;
+  border-radius: 32px;
+  border: 0;
+  top: 50%;
+  left: 50%;
+  z-index: 11;
+  transform: translateX(-50%) translateY(-50%) translateY(100%);
+  transform-origin: center;
+  transform-origin: center;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  &[open] {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    animation: dialog 200ms ease-in-out forwards;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+}
+&.closing {
+  animation: dialog-close 200ms ease-in-out reverse forwards;
+}
+
+@keyframes dialog {
+  0% {
+    transform: translateX(-50%) translateY(-50%) translateY(100%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) translateY(0);
   }
 }
