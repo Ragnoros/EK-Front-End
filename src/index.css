@@ -8,6 +8,16 @@
   box-sizing: border-box;
 }
 
+:root {
+  color-scheme: light dark;
+  --primary: light-dark(rgb(128, 0, 128), rgb(255, 215, 0));
+  --primary-text: light-dark(rgb(128, 0, 128), rgb(255, 215, 0));
+  --primary-icon: light-dark(rgba(128, 0, 128, 0.4), rgba(255, 215, 0, 0.4));
+  --secondary: light-dark(rgb(255, 215, 0), rgb(128, 0, 128));
+  --tooltip: light-dark(rgb(128, 0, 128), rgb(255, 215, 0));
+  --footer-txt: light-dark(#ffffff, #000000);
+}
+
 /* Prevent font size inflation */
 html {
   -moz-text-size-adjust: none;
@@ -110,13 +120,31 @@ body,
   min-height: 100dvh;
 }
 
-body{
-    background: linear-gradient(purple,gold);
+html {
+  background: var(--secondary);
+}
+
+body {
+  background: linear-gradient(var(--secondary), var(--primary));
 }
 
 #root {
   display: grid;
   grid-template-rows: auto 1fr auto;
+}
+
+.skip-link {
+  height: 30px;
+  left: 50%;
+  padding: 8px;
+  position: absolute;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  background-color: #ffffff;
+  color: purple;
+  &:focus {
+    transform: translateY(0%);
+  }
 }
 
 .site-header {
@@ -126,25 +154,68 @@ body{
   align-items: center;
   justify-content: space-between;
   position: relative;
-  color: gold;
+  color: var(--primary-text);
   input[type="checkbox"] {
     display: none;
   }
   [class*="__notification-list"] {
     width: min(calc(100% - 16px), 250px);
-    padding: 16px;
+    padding: 8px;
     border-radius: 8px;
     position: absolute;
     top: 3.5rem;
     right: 16px;
     list-style: none;
     background-color: #fafafa;
-    z-index: 1;
+    z-index: 2;
     display: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+  div {
+    display: flex;
+  }
+}
+
+.site-header__notification-item {
+  margin-bottom: 8px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  a {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas:
+      "img name name name name"
+      "img user user user user";
+    place-items: center;
+    color: #000000;
+    border-radius: 8px;
+    transition: background-color 300ms ease;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.19);
+    }
+  }
+  img {
+    aspect-ratio: 1/1;
+    grid-area: img;
+    border-radius: 8px;
+  }
+  p:first-child {
+    grid-area: name;
+    align-self: end;
+  }
+  p:last-child {
+    grid-area: user;
+    align-self: end;
+    color: rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -152,4 +223,5 @@ footer {
   height: 4rem;
   display: grid;
   place-items: center;
+  color: var(--footer-txt);
 }

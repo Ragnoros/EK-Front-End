@@ -1,3 +1,5 @@
+import { like } from "../utilities";
+
 type ItemProps = {
   item: {
     item_name: string;
@@ -9,14 +11,25 @@ type ItemProps = {
 
 function Item({ item }: ItemProps) {
   console.log(item);
+  const likeTooltip = { tooltip: "Like" };
+  const user_id = localStorage.getItem("user_id") ?? "";
   return (
     <>
       <main>
         <section className="ek-item-card">
-          <img src={item.img_string} alt="" className="" />
+          <img
+            src={item.img_string}
+            alt={`This is a ${item.item_name}`}
+            className=""
+          />
           <h2 className="">{item.item_name}</h2>
           <p>{item.description}</p>
-          <button className="btn btn--icon">
+          <button
+            className="btn btn--icon"
+            aria-label={`Like the ${item.item_name}`}
+            {...likeTooltip}
+            onClick={() => like(item._id, user_id)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
