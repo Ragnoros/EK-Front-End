@@ -2,8 +2,8 @@ import axios from "axios";
 
 const api = axios.create({ baseURL: "https://ek-back-end.onrender.com/api" });
 
-export const getAllItems = () => {
-  return api.get("/items").then((response) => {
+export const getAllItemsExcludingUsers = (username: string) => {
+  return api.get(`/items?username=${username}`).then((response) => {
     return response.data;
   });
 };
@@ -14,10 +14,31 @@ export const getItemById = (item_id: string) => {
   });
 };
 
+export const postItemByUsername = (
+  username: string,
+  item_name: string,
+  desc: string,
+  img: string
+) => {
+  return api
+    .post(`/items/${username}`, {
+      item_name: item_name,
+      description: desc,
+      img_string: img,
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export const likeItem = (item_id: string, user_id: string) => {
-  console.log(item_id);
   return api.patch(`/items/${item_id}`, { likes: user_id }).then((response) => {
-    console.log(response);
+    return response.data;
+  });
+};
+
+export const userLikes = (user_id: string) => {
+  return api.get(`/likes/${user_id}`).then((response) => {
     return response.data;
   });
 };
@@ -54,14 +75,22 @@ export const getUserMatchesById = (user_id: string) => {
 
 export const matchCheck = (item_id: string, user_id: string) => {
   return api
-    .post(`/matchcheck`, { item_id: item_id, user_id: user_id })
+    .post(`/matchcheck`, { user_id: user_id, item_id: item_id })
     .then((response) => {
       return response.data;
     });
 };
 
-export const trade = (user_id: string, their_user_id: string) => {
-  return api.get(`/trades/${user_id}/${their_user_id}`).then((response) => {
+export const trade = (matching_id: string) => {
+  return api.get(`/trades/${matching_id}`).then((response) => {
     return response.data;
   });
+};
+
+export const setTrade = (item_id: string, bool: boolean) => {
+  return api
+    .patch("/settrade", { match_id: item_id, bool: bool })
+    .then((response) => {
+      return response.data;
+    });
 };

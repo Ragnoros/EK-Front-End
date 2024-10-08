@@ -6,7 +6,7 @@ export const like = (item_id: string, user_id: string) => {
       console.log(like);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("cannot like twice");
     });
   matchCheck(item_id, user_id).then((match) => {
     console.log(match);

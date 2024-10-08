@@ -2,6 +2,7 @@ import Logo from "../assets/crown-logo.png";
 import { useEffect, useState, useContext, ReactNode } from "react";
 import { getAllUsers, getUserByUsername } from "../api";
 import { UserContext } from "../contexts/User";
+import AddItem from "./AddItem";
 
 type UsersState = {
   username: string;
@@ -9,15 +10,15 @@ type UsersState = {
 
 type HomeProps = {
   children: ReactNode;
+  user: {};
 };
 
-function Home({ children }: HomeProps) {
+function Home({ children, user }: HomeProps) {
   const [users, setUsers] = useState<UsersState[]>([]);
   const [username, setUsername] = useState("");
   const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
   useEffect(() => {
     getAllUsers().then((users) => {
-      console.log(users);
       setUsers(users);
     });
   }, []);
@@ -47,7 +48,10 @@ function Home({ children }: HomeProps) {
   return (
     <>
       {isLoggedIn ? (
-        <>{children}</>
+        <>
+          {children}
+          <AddItem user={user} />
+        </>
       ) : (
         <>
           <main className="main-home">

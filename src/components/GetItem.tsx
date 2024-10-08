@@ -1,6 +1,8 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { getItemById } from "../api";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import AddItem from "./AddItem";
+import { UserContext } from "../contexts/User";
 
 type getItemsProps = {
   setItem: Function;
@@ -8,6 +10,7 @@ type getItemsProps = {
 };
 
 function GetItems({ setItem, children }: getItemsProps) {
+  const { isLoggedIn } = useContext(UserContext);
   const { item_id } = useParams<{ item_id: string }>();
   useEffect(() => {
     if (item_id) {
@@ -16,7 +19,18 @@ function GetItems({ setItem, children }: getItemsProps) {
       });
     }
   }, [item_id]);
-  return <>{children}</>;
+  return (
+    <>
+      {isLoggedIn ? (
+        <>
+          {children}
+          <AddItem />
+        </>
+      ) : (
+        <Navigate to="/" />
+      )}
+    </>
+  );
 }
 
 export default GetItems;

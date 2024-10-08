@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import { getAllItems } from "../api";
+import { getAllItemsExcludingUsers } from "../api";
 import { Link } from "react-router-dom";
 import { like } from "../utilities";
 
@@ -7,6 +7,9 @@ type getItemsProps = {
   items: ItemValues[];
   setItems: Function;
   children: ReactNode;
+  user: {
+    username: string;
+  };
 };
 
 type ItemValues = {
@@ -15,14 +18,29 @@ type ItemValues = {
   _id: string;
 };
 
-function GetItems({ items, setItems }: getItemsProps) {
-  useEffect(() => {
-    getAllItems().then((items) => {
-      setItems(items);
-    });
-  }, []);
+const user_id = localStorage.getItem("user_id") ?? "";
 
-  const user_id = localStorage.getItem("user_id") ?? "";
+function GetItems({ items, setItems, user }: getItemsProps) {
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | undefined;
+    if (user?.username) {
+      const fetchItems = () => {
+        getAllItemsExcludingUsers(user?.username).then((items) => {
+          setItems(items);
+        });
+      };
+
+      fetchItems();
+
+      intervalId = setInterval(fetchItems, 5000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [user?.username]);
 
   const likeTooltip = { tooltip: "Like" };
 
