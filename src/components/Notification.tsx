@@ -14,6 +14,7 @@ type NotificationsState = {
   match_item_name: string;
   match_user_name: string;
   match_user_id: string;
+  matching_id: string;
 };
 
 function Notifcation({ user }: NotifcationProps) {
@@ -30,6 +31,7 @@ function Notifcation({ user }: NotifcationProps) {
     "settings"
   ) as HTMLDialogElement | null;
 
+  const likesTooltip = { tooltip: "Likes" };
   const notificationTooltip = { tooltip: "Notifications" };
   const settingsTooltip = { tooltip: "Settings" };
   const signOutTooltip = { tooltip: "Sign out" };
@@ -69,6 +71,17 @@ function Notifcation({ user }: NotifcationProps) {
           <p>Signed in as {user?.username}</p>
           <input type="checkbox" name="" id="notification" />
           <div>
+            <Link to="/likes" className="btn btn--icon" {...likesTooltip}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#e8eaed"
+              >
+                <path d="M720-120H320v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h218q32 0 56 24t24 56v80q0 7-1.5 15t-4.5 15L794-168q-9 20-30 34t-44 14ZM240-640v520H80v-520h160Z" />
+              </svg>
+            </Link>
             <label
               htmlFor="notification"
               className="btn btn--icon"
@@ -130,7 +143,7 @@ function Notifcation({ user }: NotifcationProps) {
             ) : (
               notifications.map((match, i) => (
                 <li key={i} className="site-header__notification-item">
-                  <Link to={`trades/${userId}/${match.match_user_id}`}>
+                  <Link to={`trades/${match.matching_id}`}>
                     <img src={match?.match_img_string} alt="" />
                     <p>{match?.match_item_name}</p>
                     <p>{match?.match_user_name}</p>

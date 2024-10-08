@@ -11,10 +11,10 @@ import Notifcation from "./components/Notification";
 import Trade from "./components/Trade";
 import { getUserById } from "./api";
 import Terms from "./components/Terms";
+import NotFound from "./components/NotFound";
+import Likes from "./components/Likes";
 
-interface ItemData {
-  name: string;
-}
+interface ItemData {}
 
 interface UserData {
   username: string;
@@ -23,7 +23,7 @@ interface UserData {
 function App() {
   const [items, setItems] = useState<ItemData[]>([]);
   const [item, setItem] = useState<ItemData | null>(null);
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserData>();
 
   const user_id = localStorage.getItem("user_id");
 
@@ -31,7 +31,6 @@ function App() {
     if (user_id) {
       getUserById(user_id).then((user) => {
         setUser(user);
-        console.log(user);
       });
     }
   }, [user_id]);
@@ -49,8 +48,8 @@ function App() {
         <Route
           path="/"
           element={
-            <Home>
-              <GetItems items={items} setItems={setItems} />
+            <Home user={user}>
+              <GetItems items={items} setItems={setItems} user={user} />
             </Home>
           }
         />
@@ -61,7 +60,9 @@ function App() {
           }
         />
         <Route path="/terms" element={<Terms />} />
-        <Route path="/trades/:user_id/:their_user_id" element={<Trade />} />
+        <Route path="/likes" element={<Likes />} />
+        <Route path="/trades/:matching_id" element={<Trade user={user} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </>

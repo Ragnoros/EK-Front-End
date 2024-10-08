@@ -120,10 +120,11 @@ body,
   min-height: 100dvh;
 }
 
-html {
+/* html {
   background: var(--secondary);
-}
+} */
 
+html,
 body {
   background: linear-gradient(var(--secondary), var(--primary));
 }
