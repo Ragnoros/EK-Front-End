@@ -63,8 +63,13 @@
   }
 }
 
+.main-trade {
+  display: grid;
+}
+
 .ek-card-group {
   width: min(calc(100% - 32px), 500px);
+  aspect-ratio: 9/16;
   border-radius: 24px;
   margin: 0 auto;
   display: flex;
@@ -77,6 +82,10 @@
   background-color: rgba(0, 0, 0, 0.7);
   border: 1px solid #fafafa4d;
   scrollbar-width: none;
+  [class*="__loading"] {
+    align-self: center;
+    text-align: center;
+  }
 }
 
 .ek-card {
@@ -183,6 +192,7 @@ button,
     background-color: transparent;
     border-color: transparent;
     background: unset;
+    cursor: pointer;
     &::after {
       min-inline-size: max-content;
       block-size: 1.5rem;
@@ -237,7 +247,7 @@ button,
     svg {
       width: 36px;
       height: 36px;
-      fill: purple;
+      fill: oklch(42.09% 0.2114 328.36341792345144);
     }
     &:active {
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -366,5 +376,27 @@ dialog {
   }
   100% {
     transform: translateX(-50%) translateY(-50%) translateY(0);
+  }
+}
+
+.address {
+  width: min(100%, 250px);
+  padding: 16px;
+  border-radius: 24px;
+  place-self: center;
+  background-color: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(20px);
+  font-size: 1.75rem;
+  button {
+    float: right;
+    cursor: pointer;
+  }
+}
+
+#settings {
+  color: #000000;
+  ul {
+    padding-top: 16px;
+    list-style: none;
   }
 }
