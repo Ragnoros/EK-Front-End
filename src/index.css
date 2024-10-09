@@ -10,12 +10,30 @@
 
 :root {
   color-scheme: light dark;
-  --primary: light-dark(rgb(128, 0, 128), rgb(255, 215, 0));
-  --primary-text: light-dark(rgb(128, 0, 128), rgb(255, 215, 0));
-  --primary-icon: light-dark(rgba(128, 0, 128, 0.4), rgba(255, 215, 0, 0.4));
-  --secondary: light-dark(rgb(255, 215, 0), rgb(128, 0, 128));
-  --tooltip: light-dark(rgb(128, 0, 128), rgb(255, 215, 0));
-  --footer-txt: light-dark(#ffffff, #000000);
+  --primary: light-dark(
+    oklch(42.09% 0.2114 328.36341792345144),
+    oklch(88.68% 0.2106 95.33)
+  );
+  --primary-text: light-dark(
+    oklch(42.09% 0.2114 328.36341792345144),
+    oklch(88.68% 0.2106 95.33)
+  );
+  --primary-icon: light-dark(
+    oklch(42.09% 0.2114 328.36341792345144 / 40%),
+    oklch(88.68% 0.2106 95.33 / 40%)
+  );
+  --secondary: light-dark(
+    oklch(88.68% 0.2106 95.33),
+    oklch(42.09% 0.2114 328.36341792345144)
+  );
+  --tooltip: light-dark(
+    oklch(42.09% 0.2114 328.36341792345144),
+    oklch(88.68% 0.2106 95.33)
+  );
+  --footer-txt: light-dark(
+    oklch(100% 3.5594404384177905e-8 106.37411429114086),
+    oklch(0% 0 0)
+  );
 }
 
 /* Prevent font size inflation */
@@ -37,6 +55,11 @@ blockquote,
 dl,
 dd {
   margin-block-end: 0;
+}
+
+::selection {
+  color: var(--secondary);
+  background: var(--primary);
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
@@ -106,7 +129,7 @@ textarea:not([rows]) {
 
 /* Anything that has been anchored to should have extra scroll margin */
 :target {
-  scroll-margin-block: 5ex;
+  scroll-margin-block: 5px;
 }
 
 a {
@@ -120,11 +143,10 @@ body,
   min-height: 100dvh;
 }
 
-/* html {
-  background: var(--secondary);
-} */
+html {
+  background-color: var(--secondary);
+}
 
-html,
 body {
   background: linear-gradient(var(--secondary), var(--primary));
 }

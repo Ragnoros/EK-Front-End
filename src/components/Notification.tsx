@@ -143,7 +143,7 @@ function Notifcation({ user }: NotifcationProps) {
             ) : (
               notifications.map((match, i) => (
                 <li key={i} className="site-header__notification-item">
-                  <Link to={`trades/${match.matching_id}`}>
+                  <Link to={`trades/${match.matching_id}/${user?.username}`}>
                     <img src={match?.match_img_string} alt="" />
                     <p>{match?.match_item_name}</p>
                     <p>{match?.match_user_name}</p>

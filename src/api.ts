@@ -81,8 +81,9 @@ export const matchCheck = (item_id: string, user_id: string) => {
     });
 };
 
-export const trade = (matching_id: string) => {
-  return api.get(`/trades/${matching_id}`).then((response) => {
+export const trade = (matching_id: string, username: string) => {
+  console.log(username)
+  return api.get(`/trades/${matching_id}/${username}`).then((response) => {
     return response.data;
   });
 };
@@ -93,4 +94,10 @@ export const setTrade = (item_id: string, bool: boolean) => {
     .then((response) => {
       return response.data;
     });
+};
+
+export const tradeSuccess = (matching_id: string) => {
+  return api.get(`/tradesuccess/${matching_id}`).then((response) => {
+    return response.data;
+  });
 };

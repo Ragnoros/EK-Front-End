@@ -61,7 +61,10 @@ function App() {
         />
         <Route path="/terms" element={<Terms />} />
         <Route path="/likes" element={<Likes />} />
-        <Route path="/trades/:matching_id" element={<Trade user={user} />} />
+        <Route
+          path="/trades/:matching_id/:username"
+          element={<Trade user={user} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
