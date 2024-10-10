@@ -65,6 +65,9 @@
 
 .main-trade {
   display: grid;
+  section {
+    width: min(100%, 500px);
+  }
 }
 
 .ek-card-group {
